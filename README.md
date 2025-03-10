@@ -17,6 +17,7 @@ Choose your own adventure - Deadline Dungeon
 - **Stretch goals**
     - As a player, I want to have random encounters that change the gameplay a bit, so that the game isn't repetitive
     - As a player, I want to see animated ASCII, so that the game looks more visually appealing
+    - As a player, I want to hear soundeffects and or music playing while I play
 
 # Pseudocode
 ```js
