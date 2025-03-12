@@ -15,7 +15,12 @@ const rooms = {
     },
     "cubicle": {
         title: "Cubicle",
-        description: "",
+        description: "You find yourself in a dense labyrinth of cubicles," +
+            " each one identical to the last. Stacks of unread memos pile up on desks, " +
+            "and the dull hum of fluorescent lights buzzes overhead." +
+            " You can hear the faint clacking of keyboards, the occasional sigh of a tired coworker," +
+            " and the dreaded sound of footsteps—could it be the boss on patrol? There's a half-eaten donut on a nearby desk." +
+            " Do you take a bite for energy or move forward before someone notices you lurking?",
         nextRooms: {
             "1":"mailRoom",
             "2":"breakRoom",
@@ -70,6 +75,7 @@ let suspicion = 0;
 let timeLeft = 8
 let img = document.createElement("img");
 let title = document.createElement("h1");
+let paragraph = document.createElement("p");
 
 
 /*------------------------ Cached Element References ------------------------*/
@@ -80,13 +86,20 @@ const screen = document.querySelector('#game');
 /*----------------------------- Event Listeners -----------------------------*/
 screen.addEventListener('click',(event) =>{
     const message = event.target;
+    // Set up as function
     if (event.target.classList.contains('btn')) {
         img.src = "./Ascii%20images/Office Floor.png"
         let src = document.querySelector("#img");
         src.appendChild(img)
+
         title.textContent = rooms.cubicle.title
         let name = document.querySelector("#text");
         name.prepend(title)
+
+        paragraph.textContent = rooms.cubicle.description;
+        let para = document.querySelector("#paragraph");
+        para.appendChild(paragraph)
+
         console.log(title)
     }
 
