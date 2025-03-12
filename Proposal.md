@@ -3,7 +3,8 @@ Choose your own adventure - Deadline Dungeon
 - My game is called Deadline Dungeon. It is an ASCII based game similar to the concepts of Multi user dungeons and ZORK. The player must make a decision based on the room he is in to avoid encountering the office boss whose aim is to catch the player slacking. As an office employee, you must traverse the rooms of the office to pass the time till end of working hours without raising the bosses suspicion of you or loosing health from bad decisions
 
 # Wireframe - Initial Landing
-![[Deadline dungeon wireframe.png]]
+<img width="1504" alt="Deadline dungeon wireframe" src="https://github.com/user-attachments/assets/15ba3208-6434-49c4-8d0c-460690f74f4e" />
+
 
 # User stories
 - **MVP goals**
@@ -17,6 +18,7 @@ Choose your own adventure - Deadline Dungeon
 - **Stretch goals**
     - As a player, I want to have random encounters that change the gameplay a bit, so that the game isn't repetitive
     - As a player, I want to see animated ASCII, so that the game looks more visually appealing
+    - As a player, I want to hear soundeffects and or music playing while I play
 
 # Pseudocode
 ```js
