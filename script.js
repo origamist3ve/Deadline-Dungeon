@@ -15,8 +15,9 @@ const rooms = {
             choice3: "You offer a polite \"Good morning\" as you walk in. At first, it seems harmless—just another routine interaction. But then it happens. A coworker stops you. “Did you catch that email about the new workflow updates?” another chimes in, “Hey, can you cover for me in the meeting later?” Before you realize it, you're being absorbed into the office hive mind, nodding along to discussions you don’t care about, agreeing to things you don’t understand. The weight of forced camaraderie and unexpected responsibilities slowly drains your energy.",
         },
         nextRooms: {
-            "1":"cubicles"
+            right:"Cubicles"
         },
+        currentScene: 1
     },
 
 
@@ -31,9 +32,9 @@ const rooms = {
             " and the dreaded sound of footsteps—could it be the boss on patrol? There's a half-eaten donut on a nearby desk." +
             " Do you take a bite for energy or move forward before someone notices you lurking?",
         nextRooms: {
-            "1":"mailRoom",
-            "2":"breakRoom",
-            "3":"copyRoom",
+            right:"Mail Room",
+            left:"Break Room",
+            "3":"Copy Room",
         },
         choices:{
             choice1: "Stretch theatrically",
@@ -51,6 +52,7 @@ const rooms = {
 
 
     "mailRoom": {
+        title: "Mail Room",
         description: "You step into the mailroom, a dimly lit space tucked away in the farthest reaches of the office. Rows of metal shelves overflow with forgotten packages, dusty memos, and mysterious envelopes addressed to employees who no longer work here. A faint smell of ink, cardboard, and corporate neglect lingers in the air. The hum of an old printer echoes through the room, spitting out paperwork no one will ever read.\n" +
             "\n" +
             "This place is quiet—too quiet. It feels like the one spot in the office where you could hide, but also the kind of place where someone might suddenly appear and assign you work.\n" +
@@ -82,7 +84,8 @@ const rooms = {
 
 
     "breakRoom": {
-        description: "",
+        title: "Break Room",
+        description: "The breakroom is a colorful yet sad little oasis in the middle of corporate monotony. A fridge hums quietly in the corner, and the coffee machine sits on the counter like a sentient being, ready to serve caffeine to those who need it most. A faint smell of microwaved leftovers lingers in the air, and the sound of faint gossip fills the room. This is your chance to escape the grind—for a few minutes at least.",
         nextRooms: {
             "1":"restRoom",
             "2":"cubicle",
@@ -172,6 +175,14 @@ let paragraph = document.createElement("p");
 
 
 /*------------------------ Cached Element References ------------------------*/
+
+let choice1 = document.querySelector("#choice1");
+let choice2 = document.querySelector("#choice2");
+let choice3 = document.querySelector("#choice3");
+let choice4 = document.querySelector("#choice4");
+let left = document.querySelector("#leftBtn");
+
+
 const text = document.querySelector("#text");
 const screen = document.querySelectorAll('#game');
 const removeButton = document.querySelector("#startBtn");
@@ -186,33 +197,14 @@ choices.forEach(choice => {
 /*----------------------------------Functions --------------------------------*/
 // Title: Room logic
 
+
+
 // if room already visited, hasVisited = true
 // if new room, timeLeft -= 1
 const enableButtons = () => {
     choices.forEach(choice => {
         choice.disabled = false;
     })
-}
-const cubicleRoom = (event) => {
-    if (event.target.classList.contains('btn')) {
-        img.src = "./Ascii%20images/Office Floor.png"
-        let src = document.querySelector("#img");
-        src.appendChild(img)
-
-
-        title.textContent = rooms.cubicles.title
-        let name = document.querySelector("#text");
-        name.prepend(title)
-
-        paragraph.textContent = rooms.cubicles.description;
-        let para = document.querySelector("#paragraph");
-        para.appendChild(paragraph)
-        removeButton.remove()
-
-
-
-        console.log(title)
-    }
 }
 
 const receptionist = (event) => {
@@ -229,13 +221,80 @@ const receptionist = (event) => {
         let para = document.querySelector("#paragraph");
         para.appendChild(paragraph)
         removeButton.remove()
+
+        choice1.textContent = rooms.receptionist.choices.choice1
+        choice2.textContent = rooms.receptionist.choices.choice2
+        choice3.textContent = rooms.receptionist.choices.choice3
+        let right = document.querySelector("#rightBtn");
+        right.textContent = rooms.receptionist.nextRooms.right
+
+        right.addEventListener('click', cubicleRoom)
+
         enableButtons()
+    }
+}
+
+const cubicleRoom = (event) => {
+    if (event.target.classList.contains('btn')) {
+        img.src = "./Ascii%20images/Office Floor.png"
+        let src = document.querySelector("#img");
+        src.appendChild(img)
+
+
+        title.textContent = rooms.cubicles.title
+        let name = document.querySelector("#text");
+        name.prepend(title)
+
+        paragraph.textContent = rooms.cubicles.description;
+        let para = document.querySelector("#paragraph");
+        para.appendChild(paragraph)
+        removeButton.remove()
+        choice1.textContent = rooms.cubicles.choices.choice1
+        choice2.textContent = rooms.cubicles.choices.choice2
+        choice3.textContent = rooms.cubicles.choices.choice3
+
+        let right = document.querySelector("#rightBtn");
+        let left = document.querySelector("#leftBtn");
+
+        // Need to assign a room function still
+        right.textContent = rooms.cubicles.nextRooms.right
+        left.textContent = rooms.cubicles.nextRooms.left
+
+
+        left.addEventListener('click', breakRoom)
+
+    }
+}
+
+
+const breakRoom = (event) => {
+    if (event.target.classList.contains('btn')) {
+        img.src = "./Ascii%20images/Coffee Room.png"
+        let src = document.querySelector("#img");
+        src.appendChild(img)
+
+
+        title.textContent = rooms.breakRoom.title
+        let name = document.querySelector("#text");
+        name.prepend(title)
+
+        paragraph.textContent = rooms.breakRoom.description;
+        let para = document.querySelector("#paragraph");
+        para.appendChild(paragraph)
+        removeButton.remove()
+        choice1.textContent = rooms.breakRoom.choices.choice1
+        choice2.textContent = rooms.breakRoom.choices.choice2
+        choice3.textContent = rooms.breakRoom.choices.choice3
+
+        let right = document.querySelector("#rightBtn");
+        let left = document.querySelector("#leftBtn");
+        left.textContent = rooms.breakRoom.nextRooms.left
+        right.textContent = rooms.breakRoom.nextRooms.right
     }
 }
 
 const pressStart = (event) => {
     receptionist(event);
-    cubicleRoom(event)
 }
 
 const raiseSuspicion = () => {
