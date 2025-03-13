@@ -5,7 +5,10 @@
 }
 
 
-
+#paragraph {
+    display: flex;
+    padding: 0px 10px 0px;
+}
 
 
 
@@ -27,6 +30,13 @@ background-color: black;
     height: 99vh;
     border: 10px solid gray;
     color: white
+}
+
+#startBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
 }
 
 pre {
@@ -82,25 +92,36 @@ img {
     flex-wrap: wrap;
     gap: 60px;
 }
-#choices {
-    display: flex;
-    justify-content: space-evenly;
-    font-size: 30px;
-    gap: 10px 50px;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-content: center;
-    padding: 20px;
+
+
+.choices {
+    background-color: green;
+    font-size: 16px;
 
 }
 
 
+/*//Rename later along with other things named btn*/
+.btn{
+    font-size: 16px;
+}
+#choices {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 10px 50px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    padding: 10px;
+
+}
 
 
 h1 {
     display: flex;
     justify-content: center;
     margin: auto;
+    padding: 10px 0px 0px
 }
 
 p{
@@ -110,5 +131,8 @@ p{
 button {
     color: white;
 }
+
+
+
 
 
