@@ -189,13 +189,16 @@ let stat2 = document.createElement("p");
 let choice1 = document.querySelector("#choice1");
 let choice2 = document.querySelector("#choice2");
 let choice3 = document.querySelector("#choice3");
-let choice4 = document.querySelector("#choice4");
 let left = document.querySelector("#leftBtn");
+let right = document.querySelector("#rightBtn");
 
 
 const text = document.querySelector("#text");
 const screen = document.querySelectorAll('#game');
 const removeButton = document.querySelector("#startBtn");
+const removeTitleImg = document.querySelector("#imgTitle");
+const removeTitle = document.querySelector("#title");
+const removeTutorial = document.querySelector("#tutorial");
 const choices = document.querySelectorAll(".choices");
 choices.forEach(choice => {
     choice.disabled = true;
@@ -207,10 +210,18 @@ choices.forEach(choice => {
 /*----------------------------------Functions --------------------------------*/
 // Title: Room logic
 
-
+const disableButtons = () => {
+    choice1.style.display = "none";
+    choice2.style.display = "none";
+    choice3.style.display = "none";
+    left.style.display = "none";
+    right.style.display = "none";
+}
 
 // if room already visited, hasVisited = true
 // if new room, timeLeft -= 1
+
+
 const enableButtons = () => {
     choices.forEach(choice => {
         choice.disabled = false;
@@ -218,9 +229,7 @@ const enableButtons = () => {
 }
 
 
-// const endGame = () => {
-//
-// }
+
 
 
 const health_suspicion = (event) => {
@@ -248,6 +257,9 @@ const receptionist = (event) => {
         let para = document.querySelector("#paragraph");
         para.appendChild(paragraph)
         removeButton.remove()
+        removeTitleImg.remove()
+        removeTutorial.remove()
+        removeTitle.remove()
 
         health_suspicion()
 
@@ -269,12 +281,14 @@ const receptionist = (event) => {
             let para = document.querySelector("#paragraph");
             const handleChoiceClick = (e) => {
 
-                if (choice === choice1) {
 
+                if (choice === choice1) {
+                    console.log(`Choice ${choice.innerHTML}`)
                     paragraph.textContent = rooms.receptionist.afterChoice.choice1;
                     para.appendChild(paragraph)
                 }
                 if (choice === choice2) {
+                    console.log(`Choice ${choice.innerHTML}`)
                     paragraph.textContent = rooms.receptionist.afterChoice.choice2;
                     para.appendChild(paragraph)
                     suspicion += 1
@@ -282,31 +296,30 @@ const receptionist = (event) => {
 
                 }
                 if (choice === choice3) {
+                    console.log(`Choice ${choice.innerHTML}`)
                     paragraph.textContent = rooms.receptionist.afterChoice.choice3;
                     para.appendChild(paragraph)
                     health -= 1
                     health_suspicion()
                 }
-                right.style.display = "block";
-                left.style.display = "block";
+                choice.removeEventListener("click", handleChoiceClick);
+
                 choice1.style.display = "none";
                 choice2.style.display = "none";
                 choice3.style.display = "none";
-                choice.removeEventListener("click", handleChoiceClick);
-
-            }
+                right.style.display = "block";
+                left.style.display = "none";
+                }
+            console.log("made it")
             choice.addEventListener("click", handleChoiceClick);
-
         })
-        // choice1.style.display = "block";
-        // choice2.style.display = "block";
-        // choice3.style.display = "block";
 
 //TODO: This is where I left off
         right.addEventListener('click', cubicleRoom)
 
         //TITLE: FIGURE OUT HOW TO DISABLE THESE IN DIFFERENT SCENES LATER
         enableButtons()
+
 
     }
 
@@ -316,6 +329,7 @@ const receptionist = (event) => {
 
 
 const cubicleRoom = () => {
+
     img.src = "./Ascii%20images/Office Floor.png"
     let src = document.querySelector("#img");
     src.appendChild(img)
@@ -347,7 +361,10 @@ const cubicleRoom = () => {
     choices.forEach(choice => {
         let para = document.querySelector("#paragraph");
         const handleChoiceClick = (e) => {
+            choice.removeEventListener("click", handleChoiceClick);
             if (choice === choice1) {
+
+                console.log(`Choice ${choice.innerHTML}`)
                 paragraph.textContent = rooms.cubicles.afterChoice.choice1;
                 para.appendChild(paragraph)
                 suspicion += 1
@@ -355,6 +372,7 @@ const cubicleRoom = () => {
 
             }
             if (choice === choice2) {
+                console.log(`Choice ${choice.innerHTML}`)
                 paragraph.textContent = rooms.cubicles.afterChoice.choice2;
                 para.appendChild(paragraph)
                 health -= 1
@@ -362,23 +380,24 @@ const cubicleRoom = () => {
 
             }
             if (choice === choice3) {
+                console.log(`Choice ${choice.innerHTML}`)
                 paragraph.textContent = rooms.cubicles.afterChoice.choice3;
                 para.appendChild(paragraph)
             }
+            choice.removeEventListener("click", handleChoiceClick);
             right.style.display = "block";
             left.style.display = "block";
             choice1.style.display = "none";
             choice2.style.display = "none";
             choice3.style.display = "none";
-            choice.removeEventListener("click", handleChoiceClick);
         }
+
         choice.addEventListener("click", handleChoiceClick);
     })
 
     choice1.style.display = "block";
     choice2.style.display = "block";
     choice3.style.display = "block";
-
 
 
 
@@ -426,7 +445,9 @@ const mailRoom = () => {
 
     choices.forEach(choice => {
         let para = document.querySelector("#paragraph");
-        choice.addEventListener("click", () => {
+        const handleChoiceClick = (e) => {
+            choice.removeEventListener("click", handleChoiceClick);
+
             if (choice === choice1) {
                 paragraph.textContent = rooms.mailRoom.afterChoice.choice1;
                 para.appendChild(paragraph)
@@ -446,13 +467,16 @@ const mailRoom = () => {
                 let para = document.querySelector("#paragraph");
                 para.appendChild(paragraph)
             }
+            choice.removeEventListener("click", handleChoiceClick);
             right.style.display = "block";
             left.style.display = "block";
             choice1.style.display = "none";
             choice2.style.display = "none";
             choice3.style.display = "none";
 
-        })
+        }
+        choice.addEventListener("click", handleChoiceClick);
+
     })
 
 
@@ -499,6 +523,7 @@ const breakRoom = () => {
 
     choices.forEach(choice => {
         choice.addEventListener("click", () => {
+            choice.removeEventListener("click", handleChoiceClick);
             if (choice === choice1) {
                 paragraph.textContent = rooms.breakRoom.afterChoice.choice1;
                 let para = document.querySelector("#paragraph");
@@ -677,6 +702,7 @@ const copyRoom = () => {
         })
     })
 
+
     choice1.style.display = "block";
     choice2.style.display = "block";
     choice3.style.display = "block";
@@ -777,14 +803,6 @@ const pressStart = (event) => {
     receptionist(event);
 }
 
-const raiseSuspicion = () => {
-    suspicion += 1;
-    console.log("current sus" + suspicion);
-}
-
-const updateTime = () => {
-    timeLeft -= 1;
-}
 
 //TODO when a certain room number reaches then show final scene
 
