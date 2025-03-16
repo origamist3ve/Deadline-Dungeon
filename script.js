@@ -223,6 +223,7 @@ const removeTutorial = document.querySelector("#tutorial");
 //TODO THis might me the issue
 
 const choices = document.querySelectorAll(".choices");
+
 // choices.forEach(choice => {
 //     choice.disabled = true;
 // })
@@ -241,8 +242,7 @@ const disableButtons = () => {
     right.style.display = "none";
 }
 
-// if room already visited, hasVisited = true
-// if new room, timeLeft -= 1
+
 
 
 const enableButtons = () => {
@@ -979,7 +979,7 @@ const goodEnd = () => {
 const badEnd1 = () => {
     right.style.display = "none";
     left.style.display = "none";
-    img.src = "./Ascii%20images/Boss Yelling.png"
+    img.src = "./Ascii%20images/Boss yelling"
     let src = document.querySelector("#img");
     src.appendChild(img)
 
@@ -1013,17 +1013,12 @@ const badEnd2 = () => {
 
 
 
-
-
-
-
 const pressStart = (event) => {
 
     receptionist(event);
 }
 
 
-//TODO when a certain room number reaches then show final scene
 
 
 //Event listeners
@@ -1033,7 +1028,5 @@ screen.forEach(element => {
 });
 
 
-//Title: Tasklist
 
-// Add what if statements that check if health or suspicion is at a certain level to prompt game over or not
 
