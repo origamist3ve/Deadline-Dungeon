@@ -196,7 +196,15 @@ const rooms = {
 let health = 5;
 let roomCount = 0;
 let suspicion = 0;
-let timeLeft = 8
+
+let hasVisitedCubicle = false;
+let hasVisitedBreak = false;
+let hasVisitedMail = false;
+let hasVisitedCopy = false;
+let hasVisitedServer = false;
+let hasVisitedRest = false;
+
+
 let img = document.createElement("img");
 let title = document.createElement("h1");
 let paragraph = document.createElement("p");
@@ -448,6 +456,7 @@ const cubicleRoom = () => {
     left.removeEventListener('click', cubicleRoom);
     right.addEventListener('click', mailRoom);
     left.addEventListener('click', breakRoom);
+    hasVisitedCubicle = true
 };
 
 
@@ -489,11 +498,13 @@ const mailRoom = () => {
     let right = document.querySelector("#rightBtn");
     let left = document.querySelector("#leftBtn");
 
+
     left.textContent = rooms.mailRoom.nextRooms.left
     right.textContent = rooms.mailRoom.nextRooms.right
 
     right.style.display = "none";
     left.style.display = "none";
+
 
     const handleChoiceClickMail = (choice) => {
         let para = document.querySelector("#paragraph");
@@ -533,6 +544,11 @@ const mailRoom = () => {
         choice2.style.display = "none";
         choice3.style.display = "none";
 
+        if (hasVisitedCubicle === true) {
+            left.style.display = "none";
+            console.log("Made it till here")
+        }
+
     }
 
     const choice1Click = () => handleChoiceClickMail(choice1);
@@ -553,6 +569,8 @@ const mailRoom = () => {
     left.removeEventListener('click', breakRoom)
     left.addEventListener('click', cubicleRoom)
     right.addEventListener('click', serverRoom)
+    hasVisitedMail = true
+
 }
 
 
@@ -634,6 +652,14 @@ const breakRoom = () => {
         choice1.style.display = "none";
         choice2.style.display = "none";
         choice3.style.display = "none";
+
+        if (hasVisitedCubicle === true) {
+            right.style.display = "none";
+            console.log("Made it till here")
+        }
+        if(hasVisitedRest === true) {
+            right.style.display = "none";
+        }
     }
 
 
@@ -655,6 +681,7 @@ const breakRoom = () => {
     left.removeEventListener('click', breakRoom)
     left.addEventListener('click', restRoom)
     right.addEventListener('click', cubicleRoom)
+    hasVisitedBreak = true
 }
 
 
@@ -734,6 +761,14 @@ const restRoom = () => {
         choice1.style.display = "none";
         choice2.style.display = "none";
         choice3.style.display = "none";
+
+        if (hasVisitedBreak === true) {
+            left.style.display = "none";
+            console.log("Made it till here")
+        }
+        if (hasVisitedCopy === true) {
+            right.style.display = "none";
+        }
     }
 
     const choice1Click = () => handleChoiceClickRest(choice1);
@@ -754,6 +789,7 @@ const restRoom = () => {
     left.removeEventListener('click', restRoom)
     left.addEventListener('click', breakRoom)
     right.addEventListener('click', copyRoom)
+    hasVisitedRest = true
 }
 
 
@@ -820,6 +856,7 @@ const copyRoom = () => {
             para.appendChild(paragraph)
             roomCount += 1
         }
+
         choice1.removeEventListener("click", choice1Click);
         choice2.removeEventListener("click", choice2Click);
         choice3.removeEventListener("click", choice3Click);
@@ -829,7 +866,16 @@ const copyRoom = () => {
         choice1.style.display = "none";
         choice2.style.display = "none";
         choice3.style.display = "none";
+
+        if (hasVisitedServer === true) {
+            right.style.display = "none";
+            console.log("Made it till here")
+        }
+        if (hasVisitedRest === true) {
+            left.style.display = "none";
+        }
     }
+
 
     const choice1Click = () => handleChoiceClickCopy(choice1);
     const choice2Click = () => handleChoiceClickCopy(choice2);
@@ -854,6 +900,7 @@ const copyRoom = () => {
     left.removeEventListener('click', breakRoom)
     left.addEventListener('click', restRoom)
     right.addEventListener('click', serverRoom)
+    hasVisitedCopy = true
 }
 
 
@@ -933,6 +980,13 @@ const serverRoom = () => {
         choice1.style.display = "none";
         choice2.style.display = "none";
         choice3.style.display = "none";
+        if (hasVisitedMail === true) {
+            right.style.display = "none";
+            console.log("Made it till here")
+        }
+        if (hasVisitedCopy === true) {
+            left.style.display = "none";
+        }
     }
 
 
@@ -956,6 +1010,8 @@ const serverRoom = () => {
     left.removeEventListener('click', restRoom)
     left.addEventListener('click', copyRoom)
     right.addEventListener('click', mailRoom)
+    hasVisitedServer = true
+
 }
 
 
@@ -979,7 +1035,7 @@ const goodEnd = () => {
 const badEnd1 = () => {
     right.style.display = "none";
     left.style.display = "none";
-    img.src = "./Ascii%20images/BossYelling.png"
+    img.src = "./Ascii%20images/BossYelling.png/"
     let src = document.querySelector("#img");
     src.appendChild(img)
 
