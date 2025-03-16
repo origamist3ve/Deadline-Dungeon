@@ -11,7 +11,7 @@ Choose your own adventure - Deadline Dungeon
     - As a player, I want to be able to navigate between rooms so that I can control my movement
     - As a player, I want to be able to click or write my choice for the room, so that I can control my decisions that impact the game
     - As a player, I want to be able to see the stats of the game on the screen, So that I know my progress
-    - As a player, I want to have a tutorial so that I'm be able to know how to play the game
+    - As a player, I want to have a tutorial so that I'm able to know how to play the game
     - As a player I want to have a limited amount of time, so that I have to manage my decisions correctly
     - As a player I want to have a few winning conditions, So that I know how my decisions impacted the game
     - As a player I want to have a game over screen that shows me the stats of my game, so that I know how I did overall in the game
@@ -19,7 +19,6 @@ Choose your own adventure - Deadline Dungeon
     - As a player, I want to have random encounters that change the gameplay a bit, so that the game isn't repetitive
     - As a player, I want to see animated ASCII, so that the game looks more visually appealing
     - As a player, I want to hear soundeffects and or music playing while I play
-
 # Pseudocode
 ```js
 // 1) Define variables of the game
