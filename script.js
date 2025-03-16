@@ -979,7 +979,7 @@ const goodEnd = () => {
 const badEnd1 = () => {
     right.style.display = "none";
     left.style.display = "none";
-    img.src = "./Ascii%20images/Boss yelling.png"
+    img.src = "./Ascii%20images/BossYelling.png"
     let src = document.querySelector("#img");
     src.appendChild(img)
 
