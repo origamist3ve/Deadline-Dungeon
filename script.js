@@ -1,17 +1,39 @@
 /*-------------------------------- Constants --------------------------------*/
 
 const rooms = {
+
+    "win": {
+        title: "You Win!",
+        description: "As you step out of the final office door, a rush of relief washes over you. The harsh fluorescent lights flicker behind you, and the endless stacks of paperwork are now a distant memory. You made it. You survived the treacherous maze of deadlines, nosy coworkers, and the ever-watchful boss."
+    },
+    "lose1": {
+        title: "Game Over – Caught by the Boss!",
+        description: "As you try to make your next move, a shadow looms over you. A cold shiver runs down your spine as you slowly turn around—it's the boss, arms crossed, eyes narrowing with suspicion.\n" +
+            "\n" +
+            "\"You’ve been acting… different lately,\" they say, tapping a finger against their desk. \"Care to explain why you’re sneaking around instead of working?\"\n" +
+            "\n" +
+            "Your mind races for an excuse, but it’s too late. The office falls silent as your coworkers glance over, sensing the inevitable. With a disappointed sigh, the boss gestures toward a towering stack of paperwork."
+    },
+    "lose2": {
+        title: "Game Over – Burnt Out and Defeated\n" +
+            "\n",
+        description: "Your body feels heavy as you trudge through the office, each step slower than the last. The endless meetings, the looming deadlines, the relentless emails—it’s all too much. Your vision blurs, your legs wobble, and with one final exhausted sigh, you collapse into the nearest chair.\n" +
+            "\n" +
+            "A coworker glances over, concerned. “Hey… you good?”\n" +
+            "\n" +
+            "You try to answer, but all that comes out is a tired groan. The weight of overwork has finally crushed you. Before you can react, the boss walks by, barely sparing you a glance."
+    },
     "receptionist": {
         title: "Receptionist",
         description: "You walk into the office floor and you're seen by the receptionist who clocks you in. She scans your character for the day. How should you act? ",
         choices: {
-            choice1: "Stand tall and proud as you walk through to start your working day",
-            choice2: "Furiously fake cough into your hand to assert your weak work dominance for the day",
-            choice3: "Say good morning and continue your day "
+            choice1: "Stand tall",
+            choice2: "Fake cough",
+            choice3: "Say good morning "
         },
         afterChoice: {
             choice1:" You stride confidently through the office entrance, shoulders squared and head held high. A few coworkers glance your way, momentarily convinced you might be someone important. The receptionist gives you a hesitant nod, unsure whether to greet you or let you pass like a high-level executive. As you reach your desk, you feel an inexplicable sense of authority—until you realize you still have an entire workday ahead.(Unchanged) ",
-            choice2: "You clear your throat loudly, then let out an exaggerated cough into your hand. A few coworkers instinctively take a step back, and someone near the water cooler subtly reaches for hand sanitizer. The office intern gives you a nervous look, unsure whether to ask if you’re okay or avoid being roped into a conversation. You’ve successfully created a small bubble of personal space, but at what cost? (Suspicion + 1)",
+            choice2: "You clear your throat loudly, asserting your week work dominance for the day, then let out an exaggerated cough into your hand. A few coworkers instinctively take a step back, and someone near the water cooler subtly reaches for hand sanitizer. The office intern gives you a nervous look, unsure whether to ask if you’re okay or avoid being roped into a conversation. You’ve successfully created a small bubble of personal space, but at what cost? (Suspicion + 1)",
             choice3: "You offer a polite \"Good morning\" as you walk in. At first, it seems harmless—just another routine interaction. But then it happens. A coworker stops you. “Did you catch that email about the new workflow updates?” another chimes in, “Hey, can you cover for me in the meeting later?” Before you realize it, you're being absorbed into the office hive mind, nodding along to discussions you don’t care about, agreeing to things you don’t understand. The weight of forced camaraderie and unexpected responsibilities slowly drains your energy. (Health - 1)",
         },
         nextRooms: {
@@ -171,7 +193,6 @@ const rooms = {
 
 
 /*-------------------------------- Variables --------------------------------*/
-let hasVisited = false;
 let health = 5;
 let roomCount = 0;
 let suspicion = 0;
@@ -199,10 +220,12 @@ const removeButton = document.querySelector("#startBtn");
 const removeTitleImg = document.querySelector("#imgTitle");
 const removeTitle = document.querySelector("#title");
 const removeTutorial = document.querySelector("#tutorial");
+//TODO THis might me the issue
+
 const choices = document.querySelectorAll(".choices");
-choices.forEach(choice => {
-    choice.disabled = true;
-})
+// choices.forEach(choice => {
+//     choice.disabled = true;
+// })
 
 
 
@@ -232,190 +255,220 @@ const enableButtons = () => {
 
 
 
+
+
 const health_suspicion = (event) => {
     stat1.textContent = "Health: " + health
     stat2.textContent = "Suspicion: " + suspicion
+
     let stats = document.querySelector("#stats");
     stats.appendChild(stat1)
     stats.appendChild(stat2)
-
-
 }
+
+
+
+
+
 
 const receptionist = (event) => {
     if (event.target.classList.contains('startBtn')) {
-        img.src = "./Ascii%20images/Receptionist.png"
+        img.src = "./Ascii%20images/Receptionist.png";
         let src = document.querySelector("#img");
-        src.appendChild(img)
+        src.appendChild(img);
 
-
-        title.textContent = rooms.receptionist.title
+        title.textContent = rooms.receptionist.title;
         let name = document.querySelector("#text");
-        name.prepend(title)
+        name.prepend(title);
 
         paragraph.textContent = rooms.receptionist.description;
         let para = document.querySelector("#paragraph");
-        para.appendChild(paragraph)
-        removeButton.remove()
-        removeTitleImg.remove()
-        removeTutorial.remove()
-        removeTitle.remove()
+        para.appendChild(paragraph);
 
-        health_suspicion()
+        removeButton.remove();
+        removeTitleImg.remove();
+        removeTutorial.remove();
+        removeTitle.remove();
 
+        health_suspicion();
 
+        choice1.textContent = rooms.receptionist.choices.choice1;
+        choice2.textContent = rooms.receptionist.choices.choice2;
+        choice3.textContent = rooms.receptionist.choices.choice3;
 
-        choice1.textContent = rooms.receptionist.choices.choice1
-        choice2.textContent = rooms.receptionist.choices.choice2
-        choice3.textContent = rooms.receptionist.choices.choice3
         let right = document.querySelector("#rightBtn");
         let left = document.querySelector("#leftBtn");
 
-        right.textContent = rooms.receptionist.nextRooms.right
-
+        right.textContent = rooms.receptionist.nextRooms.right;
         right.style.display = "none";
         left.style.display = "none";
 
-
-        choices.forEach(choice => {
+        // Function to handle choice click for the receptionist room
+        const handleChoiceClickReceptionist = (choice) => {
             let para = document.querySelector("#paragraph");
-            const handleChoiceClick = (e) => {
 
+            if (choice === choice1) {
+                console.log(`Choice ${choice.innerHTML}`);
+                paragraph.textContent = rooms.receptionist.afterChoice.choice1;
+                para.appendChild(paragraph);
+                roomCount += 1;
+            } else if (choice === choice2) {
+                console.log(`Choice ${choice.innerHTML}`);
+                paragraph.textContent = rooms.receptionist.afterChoice.choice2;
+                para.appendChild(paragraph);
+                suspicion += 1;
+                roomCount += 1;
+                health_suspicion();
+            } else if (choice === choice3) {
+                console.log(`Choice ${choice.innerHTML}`);
+                paragraph.textContent = rooms.receptionist.afterChoice.choice3;
+                para.appendChild(paragraph);
+                health -= 1;
+                roomCount += 1;
+                health_suspicion();
+            }
 
-                if (choice === choice1) {
-                    console.log(`Choice ${choice.innerHTML}`)
-                    paragraph.textContent = rooms.receptionist.afterChoice.choice1;
-                    para.appendChild(paragraph)
-                }
-                if (choice === choice2) {
-                    console.log(`Choice ${choice.innerHTML}`)
-                    paragraph.textContent = rooms.receptionist.afterChoice.choice2;
-                    para.appendChild(paragraph)
-                    suspicion += 1
-                    health_suspicion()
+            // Clean up event listeners after a choice is made
+            choice1.removeEventListener("click", choice1Click);
+            choice2.removeEventListener("click", choice2Click);
+            choice3.removeEventListener("click", choice3Click);
 
-                }
-                if (choice === choice3) {
-                    console.log(`Choice ${choice.innerHTML}`)
-                    paragraph.textContent = rooms.receptionist.afterChoice.choice3;
-                    para.appendChild(paragraph)
-                    health -= 1
-                    health_suspicion()
-                }
-                choice.removeEventListener("click", handleChoiceClick);
+            // Hide choices and show the next button
+            choice1.style.display = "none";
+            choice2.style.display = "none";
+            choice3.style.display = "none";
+            right.style.display = "block";
+            left.style.display = "none";
+        };
 
-                choice1.style.display = "none";
-                choice2.style.display = "none";
-                choice3.style.display = "none";
-                right.style.display = "block";
-                left.style.display = "none";
-                }
-            console.log("made it")
-            choice.addEventListener("click", handleChoiceClick);
-        })
+        const choice1Click = () => handleChoiceClickReceptionist(choice1);
+        const choice2Click = () => handleChoiceClickReceptionist(choice2);
+        const choice3Click = () => handleChoiceClickReceptionist(choice3);
 
-//TODO: This is where I left off
-        right.addEventListener('click', cubicleRoom)
+        choice1.addEventListener("click", choice1Click);
+        choice2.addEventListener("click", choice2Click);
+        choice3.addEventListener("click", choice3Click);
 
-        //TITLE: FIGURE OUT HOW TO DISABLE THESE IN DIFFERENT SCENES LATER
-        enableButtons()
+        right.addEventListener('click', cubicleRoom);
 
-
+        enableButtons();
     }
-
-}
-
-
-
+};
 
 const cubicleRoom = () => {
+    if (suspicion >= 5) {
+        badEnd1();
+        return;
+    }
+    if (health <= 0) {
+        badEnd2();
+        return;
+    }
 
-    img.src = "./Ascii%20images/Office Floor.png"
+    if (roomCount >= 7 ) {
+        goodEnd()
+    }
+
+    img.src = "./Ascii%20images/Office Floor.png";
     let src = document.querySelector("#img");
-    src.appendChild(img)
+    src.appendChild(img);
 
-
-    title.textContent = rooms.cubicles.title
+    title.textContent = rooms.cubicles.title;
     let name = document.querySelector("#text");
-    name.prepend(title)
+    name.prepend(title);
 
     paragraph.textContent = rooms.cubicles.description;
     let para = document.querySelector("#paragraph");
-    para.appendChild(paragraph)
-    removeButton.remove()
-    choice1.textContent = rooms.cubicles.choices.choice1
-    choice2.textContent = rooms.cubicles.choices.choice2
-    choice3.textContent = rooms.cubicles.choices.choice3
+    para.appendChild(paragraph);
+    removeButton.remove();
+
+    choice1.textContent = rooms.cubicles.choices.choice1;
+    choice2.textContent = rooms.cubicles.choices.choice2;
+    choice3.textContent = rooms.cubicles.choices.choice3;
 
     let right = document.querySelector("#rightBtn");
     let left = document.querySelector("#leftBtn");
 
-
-
-    right.textContent = rooms.cubicles.nextRooms.right
-    left.textContent = rooms.cubicles.nextRooms.left
+    right.textContent = rooms.cubicles.nextRooms.right;
+    left.textContent = rooms.cubicles.nextRooms.left;
 
     right.style.display = "none";
     left.style.display = "none";
 
-    choices.forEach(choice => {
+    const handleChoiceClickCubicle = (choice) => {
         let para = document.querySelector("#paragraph");
-        const handleChoiceClick = (e) => {
-            choice.removeEventListener("click", handleChoiceClick);
-            if (choice === choice1) {
 
-                console.log(`Choice ${choice.innerHTML}`)
-                paragraph.textContent = rooms.cubicles.afterChoice.choice1;
-                para.appendChild(paragraph)
-                suspicion += 1
-                health_suspicion()
-
-            }
-            if (choice === choice2) {
-                console.log(`Choice ${choice.innerHTML}`)
-                paragraph.textContent = rooms.cubicles.afterChoice.choice2;
-                para.appendChild(paragraph)
-                health -= 1
-                health_suspicion()
-
-            }
-            if (choice === choice3) {
-                console.log(`Choice ${choice.innerHTML}`)
-                paragraph.textContent = rooms.cubicles.afterChoice.choice3;
-                para.appendChild(paragraph)
-            }
-            choice.removeEventListener("click", handleChoiceClick);
-            right.style.display = "block";
-            left.style.display = "block";
-            choice1.style.display = "none";
-            choice2.style.display = "none";
-            choice3.style.display = "none";
+        if (choice === choice1) {
+            console.log(`Choice ${choice.innerHTML}`);
+            paragraph.textContent = rooms.cubicles.afterChoice.choice1;
+            para.appendChild(paragraph);
+            suspicion += 1;
+            roomCount += 1;
+            health_suspicion();
+        } else if (choice === choice2) {
+            console.log(`Choice ${choice.innerHTML}`);
+            paragraph.textContent = rooms.cubicles.afterChoice.choice2;
+            para.appendChild(paragraph);
+            health -= 1;
+            roomCount += 1;
+            health_suspicion();
+        } else if (choice === choice3) {
+            console.log(`Choice ${choice.innerHTML}`);
+            paragraph.textContent = rooms.cubicles.afterChoice.choice3;
+            para.appendChild(paragraph);
         }
 
-        choice.addEventListener("click", handleChoiceClick);
-    })
+
+        choice1.removeEventListener("click", choice1Click);
+        choice2.removeEventListener("click", choice2Click);
+        choice3.removeEventListener("click", choice3Click);
+
+        right.style.display = "block";
+        left.style.display = "block";
+        choice1.style.display = "none";
+        choice2.style.display = "none";
+        choice3.style.display = "none";
+    };
+
+    const choice1Click = () => handleChoiceClickCubicle(choice1);
+    const choice2Click = () => handleChoiceClickCubicle(choice2);
+    const choice3Click = () => handleChoiceClickCubicle(choice3);
+
+    choice1.addEventListener("click", choice1Click);
+    choice2.addEventListener("click", choice2Click);
+    choice3.addEventListener("click", choice3Click);
 
     choice1.style.display = "block";
     choice2.style.display = "block";
     choice3.style.display = "block";
 
+    right.removeEventListener('click', cubicleRoom);
+    left.removeEventListener('click', restRoom);
+    right.removeEventListener('click', serverRoom);
+    left.removeEventListener('click', cubicleRoom);
+    right.addEventListener('click', mailRoom);
+    left.addEventListener('click', breakRoom);
+};
 
-
-
-    right.removeEventListener('click', cubicleRoom)
-    left.removeEventListener('click', restRoom)
-    right.removeEventListener('click', serverRoom)
-    left.removeEventListener('click', cubicleRoom)
-    right.addEventListener('click', mailRoom)
-    left.addEventListener('click', breakRoom)
-
-}
 
 
 
 
 
 const mailRoom = () => {
+
+    if (suspicion >= 5) {
+        badEnd1();
+        return;
+    }
+    if (health <= 0) {
+        badEnd2();
+        return;
+    }
+
+    if (roomCount >= 7 ) {
+        goodEnd()
+    }
     img.src = "./Ascii%20images/Mail Room.png"
     let src = document.querySelector("#img");
     src.appendChild(img)
@@ -436,53 +489,63 @@ const mailRoom = () => {
     let right = document.querySelector("#rightBtn");
     let left = document.querySelector("#leftBtn");
 
-    // Need to assign a room function still
     left.textContent = rooms.mailRoom.nextRooms.left
     right.textContent = rooms.mailRoom.nextRooms.right
 
     right.style.display = "none";
     left.style.display = "none";
 
-    choices.forEach(choice => {
+    const handleChoiceClickMail = (choice) => {
         let para = document.querySelector("#paragraph");
-        const handleChoiceClick = (e) => {
-            choice.removeEventListener("click", handleChoiceClick);
 
-            if (choice === choice1) {
-                paragraph.textContent = rooms.mailRoom.afterChoice.choice1;
-                para.appendChild(paragraph)
-                suspicion += 1
-                health_suspicion()
-
-            }
-            if (choice === choice2) {
-                paragraph.textContent = rooms.mailRoom.afterChoice.choice2;
-                para.appendChild(paragraph)
-                health -= 1
-                health_suspicion()
-
-            }
-            if (choice === choice3) {
-                paragraph.textContent = rooms.mailRoom.afterChoice.choice3;
-                let para = document.querySelector("#paragraph");
-                para.appendChild(paragraph)
-            }
-            choice.removeEventListener("click", handleChoiceClick);
-            right.style.display = "block";
-            left.style.display = "block";
-            choice1.style.display = "none";
-            choice2.style.display = "none";
-            choice3.style.display = "none";
+        if (choice === choice1) {
+            paragraph.textContent = rooms.mailRoom.afterChoice.choice1;
+            para.appendChild(paragraph)
+            suspicion += 1
+            roomCount += 1
+            health_suspicion()
 
         }
-        choice.addEventListener("click", handleChoiceClick);
+        else if (choice === choice2) {
+            paragraph.textContent = rooms.mailRoom.afterChoice.choice2;
+            para.appendChild(paragraph)
+            health -= 1
+            roomCount += 1
+            health_suspicion()
 
-    })
+        }
+        else if (choice === choice3) {
+            paragraph.textContent = rooms.mailRoom.afterChoice.choice3;
+            let para = document.querySelector("#paragraph");
+            para.appendChild(paragraph)
+            roomCount += 1
+        }
 
+
+
+        choice1.removeEventListener("click", choice1Click);
+        choice2.removeEventListener("click", choice2Click);
+        choice3.removeEventListener("click", choice3Click);
+
+        right.style.display = "block";
+        left.style.display = "block";
+        choice1.style.display = "none";
+        choice2.style.display = "none";
+        choice3.style.display = "none";
+
+    }
+
+    const choice1Click = () => handleChoiceClickMail(choice1);
+    const choice2Click = () => handleChoiceClickMail(choice2);
+    const choice3Click = () => handleChoiceClickMail(choice3);
 
     choice1.style.display = "block";
     choice2.style.display = "block";
     choice3.style.display = "block";
+
+    choice1.addEventListener("click", choice1Click);
+    choice2.addEventListener("click", choice2Click);
+    choice3.addEventListener("click", choice3Click);
 
     right.removeEventListener('click', mailRoom)
     left.removeEventListener('click', copyRoom)
@@ -496,7 +559,21 @@ const mailRoom = () => {
 
 
 const breakRoom = () => {
+    if (suspicion >= 5) {
+        badEnd1();
+        return;
+    }
+    if (health <= 0) {
+        badEnd2();
+        return;
+    }
+
+    if (roomCount >= 7 ) {
+        goodEnd()
+        return;
+    }
     img.src = "./Ascii%20images/Coffee Room.png"
+    console.log(roomCount)
     let src = document.querySelector("#img");
     src.appendChild(img)
 
@@ -521,46 +598,57 @@ const breakRoom = () => {
     right.style.display = "none";
     left.style.display = "none";
 
-    choices.forEach(choice => {
-        choice.addEventListener("click", () => {
-            choice.removeEventListener("click", handleChoiceClick);
-            if (choice === choice1) {
-                paragraph.textContent = rooms.breakRoom.afterChoice.choice1;
-                let para = document.querySelector("#paragraph");
-                para.appendChild(paragraph)
+    const handleChoiceClickBreak = (choice) => {
+        if (choice === choice1) {
+            paragraph.textContent = rooms.breakRoom.afterChoice.choice1;
+            let para = document.querySelector("#paragraph");
+            para.appendChild(paragraph)
+            roomCount += 1
 
-            }
-            if (choice === choice2) {
-                paragraph.textContent = rooms.breakRoom.afterChoice.choice2;
-                let para = document.querySelector("#paragraph");
-                suspicion += 1
-                health_suspicion()
-                para.appendChild(paragraph)
-
-
-            }
-            if (choice === choice3) {
-                paragraph.textContent = rooms.breakRoom.afterChoice.choice3;
-                let para = document.querySelector("#paragraph");
-                para.appendChild(paragraph)
-                health -= 1
-                health_suspicion()
-            }
+        }
+        else if (choice === choice2) {
+            paragraph.textContent = rooms.breakRoom.afterChoice.choice2;
+            let para = document.querySelector("#paragraph");
+            suspicion += 1
+            roomCount += 1
+            health_suspicion()
+            para.appendChild(paragraph)
 
 
-            right.style.display = "block";
-            left.style.display = "block";
-            choice1.style.display = "none";
-            choice2.style.display = "none";
-            choice3.style.display = "none";
-        })
-    })
+        }
+        else if (choice === choice3) {
+            paragraph.textContent = rooms.breakRoom.afterChoice.choice3;
+            let para = document.querySelector("#paragraph");
+            para.appendChild(paragraph)
+            health -= 1
+            roomCount += 1
+            health_suspicion()
+        }
+        choice1.removeEventListener("click", choice1Click);
+        choice2.removeEventListener("click", choice2Click);
+        choice3.removeEventListener("click", choice3Click);
+
+
+        right.style.display = "block";
+        left.style.display = "block";
+        choice1.style.display = "none";
+        choice2.style.display = "none";
+        choice3.style.display = "none";
+    }
+
+
+    const choice1Click = () => handleChoiceClickBreak(choice1);
+    const choice2Click = () => handleChoiceClickBreak(choice2);
+    const choice3Click = () => handleChoiceClickBreak(choice3);
 
     choice1.style.display = "block";
     choice2.style.display = "block";
     choice3.style.display = "block";
 
-    choices.removeEventListener('click', choices)
+    choice1.addEventListener("click", choice1Click);
+    choice2.addEventListener("click", choice2Click);
+    choice3.addEventListener("click", choice3Click);
+
     right.removeEventListener('click', copyRoom)
     left.removeEventListener('click', breakRoom)
     right.removeEventListener('click', mailRoom)
@@ -573,6 +661,19 @@ const breakRoom = () => {
 
 
 const restRoom = () => {
+    if (suspicion >= 5) {
+        badEnd1();
+        return;
+    }
+    if (health <= 0) {
+        badEnd2();
+        return;
+    }
+
+    if (roomCount >= 7 ) {
+        goodEnd()
+        return;
+    }
     img.src = "./Ascii%20images/Restroom.png"
     let src = document.querySelector("#img");
     src.appendChild(img)
@@ -599,40 +700,53 @@ const restRoom = () => {
     right.style.display = "none";
     left.style.display = "none";
 
-    choices.forEach(choice => {
-        choice.addEventListener("click", () => {
-            if (choice === choice1) {
-                paragraph.textContent = rooms.restRoom.afterChoice.choice1;
-                let para = document.querySelector("#paragraph");
-                para.appendChild(paragraph)
-            }
-            if (choice === choice2) {
-                paragraph.textContent = rooms.restRoom.afterChoice.choice2;
-                let para = document.querySelector("#paragraph");
-                para.appendChild(paragraph)
-                suspicion += 1
-                health_suspicion()
+    const handleChoiceClickRest = (choice) => {
+        if (choice === choice1) {
+            paragraph.textContent = rooms.restRoom.afterChoice.choice1;
+            let para = document.querySelector("#paragraph");
+            para.appendChild(paragraph)
+            roomCount += 1
+        }
+        else if (choice === choice2) {
+            paragraph.textContent = rooms.restRoom.afterChoice.choice2;
+            let para = document.querySelector("#paragraph");
+            para.appendChild(paragraph)
+            suspicion += 1
+            roomCount += 1
+            health_suspicion()
 
-            }
-            if (choice === choice3) {
-                paragraph.textContent = rooms.restRoom.afterChoice.choice3;
-                let para = document.querySelector("#paragraph");
-                para.appendChild(paragraph)
-                health -= 1
-                health_suspicion()
+        }
+        else if (choice === choice3) {
+            paragraph.textContent = rooms.restRoom.afterChoice.choice3;
+            let para = document.querySelector("#paragraph");
+            para.appendChild(paragraph)
+            health -= 1
+            roomCount += 1
+            health_suspicion()
+        }
+        choice1.removeEventListener("click", choice1Click);
+        choice2.removeEventListener("click", choice2Click);
+        choice3.removeEventListener("click", choice3Click);
 
-            }
-            right.style.display = "block";
-            left.style.display = "block";
-            choice1.style.display = "none";
-            choice2.style.display = "none";
-            choice3.style.display = "none";
-        })
-    })
+
+        right.style.display = "block";
+        left.style.display = "block";
+        choice1.style.display = "none";
+        choice2.style.display = "none";
+        choice3.style.display = "none";
+    }
+
+    const choice1Click = () => handleChoiceClickRest(choice1);
+    const choice2Click = () => handleChoiceClickRest(choice2);
+    const choice3Click = () => handleChoiceClickRest(choice3);
 
     choice1.style.display = "block";
     choice2.style.display = "block";
     choice3.style.display = "block";
+
+    choice1.addEventListener("click", choice1Click);
+    choice2.addEventListener("click", choice2Click);
+    choice3.addEventListener("click", choice3Click);
 
     right.removeEventListener('click', serverRoom)
     left.removeEventListener('click', restRoom)
@@ -643,9 +757,19 @@ const restRoom = () => {
 }
 
 
-
-
 const copyRoom = () => {
+    if (suspicion >= 5) {
+        badEnd1();
+        return;
+    }
+    if (health <= 0) {
+        badEnd2();
+        return;
+    }
+    if (roomCount >= 7 ) {
+        goodEnd()
+        return
+    }
     img.src = "./Ascii%20images/Copy Room.png"
     let src = document.querySelector("#img");
     src.appendChild(img)
@@ -671,45 +795,56 @@ const copyRoom = () => {
     right.style.display = "none";
     left.style.display = "none";
 
-    choices.forEach(choice => {
-        choice.addEventListener("click", () => {
-            if (choice === choice1) {
-                paragraph.textContent = rooms.copyRoom.afterChoice.choice1;
-                let para = document.querySelector("#paragraph");
-                para.appendChild(paragraph)
-                health -= 1
-                health_suspicion()
+    const handleChoiceClickCopy = (choice) => {
+        if (choice === choice1) {
+            paragraph.textContent = rooms.copyRoom.afterChoice.choice1;
+            let para = document.querySelector("#paragraph");
+            para.appendChild(paragraph)
+            health -= 1
+            roomCount += 1
+            health_suspicion()
 
-            }
-            if (choice === choice2) {
-                paragraph.textContent = rooms.copyRoom.afterChoice.choice2;
-                let para = document.querySelector("#paragraph");
-                para.appendChild(paragraph)
-                suspicion += 1
-                health_suspicion()
+        }
+        else if (choice === choice2) {
+            paragraph.textContent = rooms.copyRoom.afterChoice.choice2;
+            let para = document.querySelector("#paragraph");
+            para.appendChild(paragraph)
+            suspicion += 1
+            roomCount += 1
+            health_suspicion()
 
-            }
-            if (choice === choice3) {
-                paragraph.textContent = rooms.copyRoom.afterChoice.choice3;
-                let para = document.querySelector("#paragraph");
-                para.appendChild(paragraph)
-            }
-            right.style.display = "block";
-            left.style.display = "block";
-            choice1.style.display = "none";
-            choice2.style.display = "none";
-            choice3.style.display = "none";
-        })
-    })
+        }
+        else if (choice === choice3) {
+            paragraph.textContent = rooms.copyRoom.afterChoice.choice3;
+            let para = document.querySelector("#paragraph");
+            para.appendChild(paragraph)
+            roomCount += 1
+        }
+        choice1.removeEventListener("click", choice1Click);
+        choice2.removeEventListener("click", choice2Click);
+        choice3.removeEventListener("click", choice3Click);
 
+        right.style.display = "block";
+        left.style.display = "block";
+        choice1.style.display = "none";
+        choice2.style.display = "none";
+        choice3.style.display = "none";
+    }
+
+    const choice1Click = () => handleChoiceClickCopy(choice1);
+    const choice2Click = () => handleChoiceClickCopy(choice2);
+    const choice3Click = () => handleChoiceClickCopy(choice3);
 
     choice1.style.display = "block";
     choice2.style.display = "block";
     choice3.style.display = "block";
 
+    choice1.addEventListener("click", choice1Click);
+    choice2.addEventListener("click", choice2Click);
+    choice3.addEventListener("click", choice3Click);
 
 
-    // Hide next room buttons until selections have been made
+
 
 
 
@@ -725,6 +860,20 @@ const copyRoom = () => {
 
 
 const serverRoom = () => {
+    if (suspicion >= 5) {
+        badEnd1();
+        return;
+    }
+    if (health <= 0) {
+        badEnd2();
+        return;
+    }
+
+    if (roomCount >= 7 ) {
+        goodEnd()
+        return;
+    }
+
     img.src = "./Ascii%20images/Server Room.png"
     let src = document.querySelector("#img");
     src.appendChild(img)
@@ -749,41 +898,57 @@ const serverRoom = () => {
     right.style.display = "none";
     left.style.display = "none";
 
-    choices.forEach(choice => {
-        choice.addEventListener("click", () => {
-            if (choice === choice1) {
-                paragraph.textContent = rooms.serverRoom.afterChoice.choice1;
-                let para = document.querySelector("#paragraph");
-                para.appendChild(paragraph)
-                suspicion += 1
-                health_suspicion()
+    const handleChoiceClickServer = (choice) => {
+        if (choice === choice1) {
+            paragraph.textContent = rooms.serverRoom.afterChoice.choice1;
+            let para = document.querySelector("#paragraph");
+            para.appendChild(paragraph)
+            suspicion += 1
+            roomCount += 1
+            health_suspicion()
 
-            }
-            if (choice === choice2) {
-                paragraph.textContent = rooms.serverRoom.afterChoice.choice2;
-                let para = document.querySelector("#paragraph");
-                para.appendChild(paragraph)
-                health -= 1
-                health_suspicion()
+        }
+        else if (choice === choice2) {
+            paragraph.textContent = rooms.serverRoom.afterChoice.choice2;
+            let para = document.querySelector("#paragraph");
+            para.appendChild(paragraph)
+            health -= 1
+            roomCount += 1
+            health_suspicion()
 
-            }
-            if (choice === choice3) {
-                paragraph.textContent = rooms.serverRoom.afterChoice.choice3;
-                let para = document.querySelector("#paragraph");
-                para.appendChild(paragraph)
-            }
-            right.style.display = "block";
-            left.style.display = "block";
-            choice1.style.display = "none";
-            choice2.style.display = "none";
-            choice3.style.display = "none";
-        })
-    })
+        }
+        else if (choice === choice3) {
+            paragraph.textContent = rooms.serverRoom.afterChoice.choice3;
+            let para = document.querySelector("#paragraph");
+            roomCount += 1
+            para.appendChild(paragraph)
+        }
+        choice1.removeEventListener("click", choice1Click);
+        choice2.removeEventListener("click", choice2Click);
+        choice3.removeEventListener("click", choice3Click);
+
+
+        right.style.display = "block";
+        left.style.display = "block";
+        choice1.style.display = "none";
+        choice2.style.display = "none";
+        choice3.style.display = "none";
+    }
+
+
+    const choice1Click = () => handleChoiceClickServer(choice1);
+    const choice2Click = () => handleChoiceClickServer(choice2);
+    const choice3Click = () => handleChoiceClickServer(choice3);
 
     choice1.style.display = "block";
     choice2.style.display = "block";
     choice3.style.display = "block";
 
+    choice1.addEventListener("click", choice1Click);
+    choice2.addEventListener("click", choice2Click);
+    choice3.addEventListener("click", choice3Click);
+
+    console.log(roomCount)
 
     right.removeEventListener('click', serverRoom)
     left.removeEventListener('click', cubicleRoom)
@@ -791,7 +956,59 @@ const serverRoom = () => {
     left.removeEventListener('click', restRoom)
     left.addEventListener('click', copyRoom)
     right.addEventListener('click', mailRoom)
-    console.log(right)
+}
+
+
+const goodEnd = () => {
+    right.style.display = "none";
+    left.style.display = "none";
+    img.src = "./Ascii%20images/Leaving Work.png"
+    let src = document.querySelector("#img");
+    src.appendChild(img)
+
+
+    title.textContent = rooms.win.title
+    let name = document.querySelector("#text");
+    name.prepend(title)
+
+    paragraph.textContent = rooms.win.description;
+    let para = document.querySelector("#paragraph");
+    para.appendChild(paragraph)
+}
+
+const badEnd1 = () => {
+    right.style.display = "none";
+    left.style.display = "none";
+    img.src = "./Ascii%20images/Boss Yelling.png"
+    let src = document.querySelector("#img");
+    src.appendChild(img)
+
+
+    title.textContent = rooms.lose1.title
+    let name = document.querySelector("#text");
+    name.prepend(title)
+
+    paragraph.textContent = rooms.lose1.description;
+    let para = document.querySelector("#paragraph");
+    para.appendChild(paragraph)
+}
+
+
+const badEnd2 = () => {
+    right.style.display = "none";
+    left.style.display = "none";
+    img.src = "./Ascii%20images/Sleeping.png"
+    let src = document.querySelector("#img");
+    src.appendChild(img)
+
+
+    title.textContent = rooms.lose2.title
+    let name = document.querySelector("#text");
+    name.prepend(title)
+
+    paragraph.textContent = rooms.lose2.description;
+    let para = document.querySelector("#paragraph");
+    para.appendChild(paragraph)
 }
 
 
@@ -799,7 +1016,9 @@ const serverRoom = () => {
 
 
 
+
 const pressStart = (event) => {
+
     receptionist(event);
 }
 
