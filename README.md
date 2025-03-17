@@ -24,10 +24,10 @@ git clone https://github.com/origamist3ve/deadline-dungeon.git
 - Play and survive the corporate grind!
 
 ✨ Features
-✔ ASCII art styling for immersive storytelling.
-✔ Decision-based gameplay with multiple endings.
-✔ Simple yet challenging mechanics.
-✔ Pure HTML, CSS, and JavaScript—no frameworks required!
+- ✔ ASCII art styling for immersive storytelling.
+- ✔ Decision-based gameplay with multiple endings.
+- ✔ Simple yet challenging mechanics.
+- ✔ Pure HTML, CSS, and JavaScript—no frameworks required!
 
 
 
