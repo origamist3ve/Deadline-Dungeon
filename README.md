@@ -21,7 +21,8 @@ Welcome to Deadline Dungeon, a thrilling text-based adventure set in the treache
 git clone https://github.com/origamist3ve/deadline-dungeon.git
 ```
 - Open index.html in a browser.
-Play and survive the corporate grind!
+- Play and survive the corporate grind!
+
 ✨ Features
 ✔ ASCII art styling for immersive storytelling.
 ✔ Decision-based gameplay with multiple endings.
