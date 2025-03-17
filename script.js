@@ -316,19 +316,16 @@ const receptionist = (event) => {
             let para = document.querySelector("#paragraph");
 
             if (choice === choice1) {
-                console.log(`Choice ${choice.innerHTML}`);
                 paragraph.textContent = rooms.receptionist.afterChoice.choice1;
                 para.appendChild(paragraph);
                 roomCount += 1;
             } else if (choice === choice2) {
-                console.log(`Choice ${choice.innerHTML}`);
                 paragraph.textContent = rooms.receptionist.afterChoice.choice2;
                 para.appendChild(paragraph);
                 suspicion += 1;
                 roomCount += 1;
                 health_suspicion();
             } else if (choice === choice3) {
-                console.log(`Choice ${choice.innerHTML}`);
                 paragraph.textContent = rooms.receptionist.afterChoice.choice3;
                 para.appendChild(paragraph);
                 health -= 1;
@@ -407,21 +404,18 @@ const cubicleRoom = () => {
         let para = document.querySelector("#paragraph");
 
         if (choice === choice1) {
-            console.log(`Choice ${choice.innerHTML}`);
             paragraph.textContent = rooms.cubicles.afterChoice.choice1;
             para.appendChild(paragraph);
             suspicion += 1;
             roomCount += 1;
             health_suspicion();
         } else if (choice === choice2) {
-            console.log(`Choice ${choice.innerHTML}`);
             paragraph.textContent = rooms.cubicles.afterChoice.choice2;
             para.appendChild(paragraph);
             health -= 1;
             roomCount += 1;
             health_suspicion();
         } else if (choice === choice3) {
-            console.log(`Choice ${choice.innerHTML}`);
             paragraph.textContent = rooms.cubicles.afterChoice.choice3;
             para.appendChild(paragraph);
         }
@@ -546,7 +540,6 @@ const mailRoom = () => {
 
         if (hasVisitedCubicle === true) {
             left.style.display = "none";
-            console.log("Made it till here")
         }
 
     }
@@ -591,7 +584,6 @@ const breakRoom = () => {
         return;
     }
     img.src = "./Ascii%20images/Coffee Room.png"
-    console.log(roomCount)
     let src = document.querySelector("#img");
     src.appendChild(img)
 
@@ -655,7 +647,6 @@ const breakRoom = () => {
 
         if (hasVisitedCubicle === true) {
             right.style.display = "none";
-            console.log("Made it till here")
         }
         if(hasVisitedRest === true) {
             right.style.display = "none";
@@ -764,7 +755,6 @@ const restRoom = () => {
 
         if (hasVisitedBreak === true) {
             left.style.display = "none";
-            console.log("Made it till here")
         }
         if (hasVisitedCopy === true) {
             right.style.display = "none";
@@ -869,7 +859,6 @@ const copyRoom = () => {
 
         if (hasVisitedServer === true) {
             right.style.display = "none";
-            console.log("Made it till here")
         }
         if (hasVisitedRest === true) {
             left.style.display = "none";
@@ -982,7 +971,6 @@ const serverRoom = () => {
         choice3.style.display = "none";
         if (hasVisitedMail === true) {
             right.style.display = "none";
-            console.log("Made it till here")
         }
         if (hasVisitedCopy === true) {
             left.style.display = "none";
@@ -1002,7 +990,6 @@ const serverRoom = () => {
     choice2.addEventListener("click", choice2Click);
     choice3.addEventListener("click", choice3Click);
 
-    console.log(roomCount)
 
     right.removeEventListener('click', serverRoom)
     left.removeEventListener('click', cubicleRoom)
